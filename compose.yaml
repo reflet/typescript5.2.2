@@ -5,17 +5,24 @@ services:
       context: ./
       dockerfile: ./docker/node/Dockerfile
     tty: true
-    working_dir: /usr/src/app
+    working_dir: /usr/src/
     volumes:
-      - ./src:/usr/src/app
-      - js:/usr/src/app/js/
-      - node_modules:/usr/src/app/node_modules/
+      # Typescript
+      - ./src:/usr/src/
+      - dist:/usr/src/dist/
+      - node_modules:/usr/src/node_modules/
+      # React Application.
+      - ./src-react:/usr/src-react
+      - react_node_modules:/usr/src-react/node_modules/
     ports:
       - '3000:3000'
 
 volumes:
+  dist:
+    driver: local
+
   node_modules:
     driver: local
 
-  js:
+  react_node_modules:
     driver: local

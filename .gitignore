@@ -70,4 +70,4 @@ typings/
 .env
 .next
 
-src/js/
+src/dist/

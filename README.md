@@ -12,15 +12,18 @@ TypeScriptのバージョン5.2.2の学習用に作ります。
 
 ## ファイル構成
 ```
-┗ src
-  ┣ js
-  ┃  ┗ index.js      ← index.tsがトランスパイルされたファイル
-  ┃
+┣ src
+┃┣ dist              ← トランスパイルされたファイル
+┃┣ node_modules      ← npm installでインストールされるライブラリ
+┃┣ src               ← Typescriptのコード
+┃┣ package.json
+┃┣ package-lock.json
+┃┗ tsconfig.json     ← Typescriptの設定ファイル
+┃
+┗ src-react
   ┣ node_modules      ← npm installでインストールされるライブラリ
-  ┃
-  ┣ src
-  ┃  ┗ index.ts      ← Typescriptのコード
-  ┃
+  ┣ public            ← 素材フォルダ
+  ┣ src               ← React + Typescriptのコード
   ┣ package.json
   ┣ package-lock.json
   ┗ tsconfig.json     ← Typescriptの設定ファイル
@@ -59,11 +62,38 @@ $ docker compose exec node npx tsc
 ## プログラム実行
 jsファイルを実行してみる。
 ```bash
-$ docker compose exec node node ./js/index.js
+$ docker compose exec node node ./dist/index.js
 Hello, Typescript.
 ```
 
-## プロジェクト作成
+## Reactプロジェクト
+ライブラリをインストールする。
+```bash
+$ docker compose exec node bash -c "cd /usr/src-react && npm install"
+````
+
+開発サーバーを起動します。
+```bash
+$ docker compose exec node bash -c "cd /usr/src-react && npm start"
+
+You can now view app in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://172.19.0.2:3000
+
+Note that the development build is not optimized.
+To create a production build, use npm run build.
+
+webpack compiled successfully
+No issues found.
+```
+
+ブラウザで動作確認する。
+```bash
+$ open http://localhost:3000
+```
+
+## プロジェクト作成 (Typescript)
 新規にプロジェクトを作成する場合は、下記コマンドで、各設定ファイルを作成ください。
 
 ＜各設定ファイル＞
@@ -98,5 +128,12 @@ $ docker compose run --rm node npx tsc --init
 ※ `"moduleResolution": "node"`に変更する  
 ※ ` "outDir": "./js"`に変更する  
 ※ `"include": ["./src/**/*.ts"]`を追加する  
+
+## プロジェクト作成 (React + Typescript)
+CRA(create-react-app)を使ってインストールする。
+※ 現在では、viteが推奨されているが、書籍に記載のバージョンに揃えるため、あえて使う
+```bash
+$ docker compose exec node bash -c "cd /usr/ && npx create-react-app src-react --template typescript"
+```
 
 以上
